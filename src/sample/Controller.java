@@ -1,51 +1,49 @@
 package sample;
 
-import ca.uhn.fhir.model.dstu2.resource.Bundle;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import org.hl7.fhir.dstu3.model.Bundle;
 
 import java.util.ArrayList;
 
 public class Controller {
 
-    private ArrayList<String> myList;
-    public ArrayList<myPatient> patientArrayList;
+    //GUI elements
     public Button search;
     public ListView patientList;
-    //public FhirContext ctx;
     public TextField patientName;
-    //public static String serverBase= "http://fhirtest.uhn.ca/baseDstu2";
-    //public IGenericClient client;
+
+
+    public ArrayList<myPatient> patientArrayList;
     public FhirtestServer connection;
     public myPatient helpPatient;
 
     public void handleSearch(){
-
-        helpPatient=new myPatient();
+        helpPatient = new myPatient();
         patientArrayList= new ArrayList<>();
-        myList = new ArrayList<>(); //name list only
         patientList.getItems().clear();
         Bundle myBundle;
         ObservableList<String> patients = FXCollections.observableArrayList ();
 
         if(patientName.getText().length()==0) {
         
-            myBundle= connection.getAllName();
+            myBundle = connection.getAllName();
 
-            patientArrayList=connection.getPatientName(myBundle,helpPatient);
+            patientArrayList = connection.getPatientName(myBundle, helpPatient);
 
-        }else{
+        } else {
             myBundle= connection.getOneName(patientName.getText());
-            patientArrayList=connection.getPatientName(myBundle,helpPatient);
+            patientArrayList = connection.getPatientName(myBundle, helpPatient);
 
         }
-        for(myPatient patient : patientArrayList){
-            patients.add(patient.getName());
-            myList.add(patient.getId());}
+        for (myPatient patient : patientArrayList) {
+            patients.add(patient.getId() + " " + patient.getName());
+        }
         patientList.setItems(patients);
     }
     @FXML

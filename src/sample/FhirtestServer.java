@@ -1,19 +1,20 @@
 package sample;
 
+
 import ca.uhn.fhir.context.FhirContext;
-import ca.uhn.fhir.model.dstu2.resource.Bundle;
-import ca.uhn.fhir.model.dstu2.resource.Patient;
 import ca.uhn.fhir.rest.client.api.IGenericClient;
+import org.hl7.fhir.dstu3.model.Bundle;
+import org.hl7.fhir.dstu3.model.Patient;
 
 import java.util.ArrayList;
 
 public class FhirtestServer {
     public FhirContext ctx;
-    public static String serverBase= "http://fhirtest.uhn.ca/baseDstu2";
+    public static String serverBase= "http://hapi.fhir.org/baseDstu3";
     public IGenericClient client;
 
     public FhirtestServer(){
-        ctx = FhirContext.forDstu2();
+        ctx = FhirContext.forDstu3();
         client = ctx.newRestfulGenericClient(serverBase);
     }
     public Bundle getAllName(){
@@ -34,16 +35,23 @@ public class FhirtestServer {
     }
 
     public ArrayList getPatientName(Bundle allPatient, myPatient helpPatient){
-        ArrayList<myPatient> patientArrayList= new ArrayList<>();
-        for (int i=0 ; i<allPatient.getEntry().size(); i++){
-
+        ArrayList<myPatient> patientArrayList = new ArrayList<>();
+        for (int i=0 ; i < allPatient.getEntry().size(); i++){
             Patient thePatient = (Patient) allPatient.getEntry().get(i).getResource();
-            String checkName=helpPatient.makeName(thePatient);
-            if(checkName.length()>2) {
-                patientArrayList.add(new myPatient(thePatient,checkName,thePatient.getId().toString()));
+            /*if (thePatient.getName().get(0).getFamily().isEmpty()) {
+                System.out.print("blabla\t" + thePatient.getName().get(0).getFamily());
             }
+            else
+            {
+
+            }*/
+            patientArrayList.add(new myPatient(thePatient));
+            //String checkName=helpPatient.makeName(thePatient);
+            //if(checkName.length()>2) {
+            //
+           // }
         }
-    return patientArrayList;
+        return patientArrayList;
     }
 
 

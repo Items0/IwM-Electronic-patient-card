@@ -2,7 +2,11 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/iwm3.iml" filepath="$PROJECT_DIR$/iwm3.iml" />
+
+
+
+      <module fileurl="file://$PROJECT_DIR$/IwM-Electronic-patient-card.iml" filepath="$PROJECT_DIR$/IwM-Electronic-patient-card.iml" />
+
     </modules>
   </component>
 </project>

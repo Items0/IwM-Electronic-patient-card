@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import java.lang.*?>
@@ -18,3 +19,13 @@
       <TextField fx:id="patientName" layoutX="50.0" layoutY="24.0" prefHeight="25.0" prefWidth="135.0" promptText="Podaj nazwisko" />
    </children>
 </Pane>
+=======
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.GridPane?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<GridPane fx:controller="sample.Controller"
+          xmlns:fx="http://javafx.com/fxml" alignment="center" hgap="10" vgap="10">
+</GridPane>
+>>>>>>> 6881bc22999f4cc71b0d7e4624c96361668c2306

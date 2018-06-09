@@ -1,33 +1,46 @@
 package sample;
 
 
+import org.hl7.fhir.dstu3.model.Bundle;
 import org.hl7.fhir.dstu3.model.Patient;
 
 import java.util.Date;
+
 public class myPatient {
     private String name;
     private String id;
-    private Date birthdate;
+    private Date birthDate;
     private String gender;
 
     public myPatient() {
 
     }
 
-    public myPatient(Patient p) {
-        //if (p.getName().get(0).getNameAsSingleString() != null) {
-         //   this.name = WordUtils.capitalizeFully(p.getName().get(0).getNameAsSingleString()); // + "\t" + p.getName().get(0).getText();
-        this.name = "noname";
-       // }
-        if (p.getId() != null) {
-            this.id = p.getId().split("/")[p.getId().split("/").length - 1];
+    @Override
+    public String toString() {
+        return "Patient ID: "+ getId() + "\tPatient Name: " + getName() + "\tBrithDate: " + getBirthdate() + "\tGender: " + getGender();
+    }
+    public String showDetails(){
+        return "Patient Birth Date:"+getBirthdate()+"\nPatient gender: "+ getGender();
+    }
+
+    public myPatient(Bundle.BundleEntryComponent p) {
+        Patient patient = (Patient) p.getResource();
+        this.id = p.getFullUrl().split("/")[p.getFullUrl().split("/").length - 1];
+        this.name = patient.getName().isEmpty() ? "noname" : patient.getName().get(0).getFamily();
+        this.gender = patient.getGender() == null ? "nogender" : patient.getGender().getDisplay();
+        this.birthDate = patient.getBirthDate();
+    }
+
+    public Boolean checkValidity() {
+        if (this.getName() != null && this.getGender() != null && this.getBirthdate() != null
+                && this.getName().length() > 2 && this.getGender() != "Unknown"  && this.getBirthdate().after(new Date(1925, 1, 1))) {
+            return true;
         }
-        if (p.getBirthDate() != null) {
-            this.birthdate = p.getBirthDate();
+        else {
+            return  false;
         }
-        if (p.getGender() != null) {
-            this.gender = p.getGender().toString();
-        }
+
     }
 
     public String getName() {
@@ -36,24 +49,7 @@ public class myPatient {
     public String getId() {
         return id;
     }
-    public Date getBirthdate() { return birthdate; }
+    public Date getBirthdate() { return birthDate; }
     public String getGender() { return gender; }
 
-    /*
-    public String makeName(Patient patient){
-        String name = "";
-
-        //for (int i = 0; i < patient.getName().size(); i++) {
-        //    if (patient.getName().get(i).getFamily() !=null)
-        //        name = name + " " + patient.getName().get(i).getFamily();
-        //}
-
-        for (int i = 0; i < patient.getName().size(); i++) {
-            if (patient.getName().get(i).getGivenAsSingleString()!=null)
-                name = name + " " + patient.getName().get(i).getFamilyAsSingleString();
-
-
-        }
-        return name;
-    } */
 }

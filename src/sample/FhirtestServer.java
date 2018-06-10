@@ -47,7 +47,7 @@ public class FhirtestServer {
         inParams.addParameter().setName("start").setValue(new DateType(start));
         inParams.addParameter().setName("end").setValue(new DateType(end));
 
-// Invoke $everything on "Patient/1"
+        //Invoke $everything on "Patient/1"
         Parameters outParams = client
                 .operation()
                 .onInstance(new IdType("Patient", patientID))
@@ -129,7 +129,6 @@ public class FhirtestServer {
             if(e.getResource() instanceof Observation){
                 Observation o = (Observation)e.getResource();
                 myObservation myObservation = new myObservation(o);
-                System.out.println("Observation");
                 observationList.add(myObservation);
             }else if(e.getResource() instanceof MedicationStatement){
                 MedicationStatement ms = (MedicationStatement)e.getResource();

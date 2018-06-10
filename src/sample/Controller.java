@@ -58,21 +58,20 @@ public class Controller {
         myPatient choosenPatient =(myPatient)patientList.getSelectionModel().getSelectedItem();
         everythingFromChoosenPatient= connection.getEveything(choosenPatient.getId());
 
-
-
         ObservableList<Object> observationsList = FXCollections.observableArrayList();
-        ObservableList<String> timeObservableList = FXCollections.observableArrayList();
+        ObservableList<Object> medicationsList = FXCollections.observableArrayList();
 
-        observations = connection.getObservationAndMedicationStatement(everythingFromChoosenPatient);
-        List<myMedication> myMedicationsList=connection.getMedication(everythingFromChoosenPatient);
+        observations = connection.getObservation(everythingFromChoosenPatient);
+        List<Object> medications = connection.getMedicationRequest(everythingFromChoosenPatient);
+        List<myMedication> myMedicationsList = connection.getMedication(everythingFromChoosenPatient);
 
         for (Object o : observations) {
             myObservation mo = (myObservation)o;
             if (mo.getName() != null && mo.getMeasure() != null) {
                 observationsList.add(o);
             }
-            /*if(o instanceof myMedicationStatement){
-                myMedicationStatement ms = (myMedicationStatement)o;
+            /*if(o instanceof myMedicationRequest){
+                myMedicationRequest ms = (myMedicationRequest)o;
                 timeObservableList.add(ms.getStartDate().toString()+"\n ");
                 //System.out.println("MEDICATIONSTATEMANT");
 
@@ -83,8 +82,11 @@ public class Controller {
                 //System.out.println("Observation");
             */
         }
-        for (Object o: myMedicationsList){
-            medicationShow.appendText(o.toString());
+        medicationShow.clear();
+        for (Object o : medications) {
+            myMedicationRequest mmr = (myMedicationRequest)o;
+            medicationsList.add(mmr);
+            medicationShow.appendText(mmr.getName() + "\n");
         }
 
         System.out.println("Observations size:" + observations.size());
@@ -118,7 +120,11 @@ public class Controller {
 
         for (Object o : observations) {
             myObservation mo = (myObservation) o;
-            if (mo.getName() != null && mo.getMeasure() != null && !mo.getStartDate().before(java.sql.Date.valueOf(timeStart.getValue()))) {
+            if (timeEnd.getValue() != null && mo.getName() != null && mo.getMeasure() != null && !mo.getStartDate().before(java.sql.Date.valueOf(timeStart.getValue())) &&
+                    !mo.getStartDate().after(java.sql.Date.valueOf(timeEnd.getValue().plusDays(1)))) {
+                observationsList.add(o);
+            }
+            if (timeEnd.getValue() == null && mo.getName() != null && mo.getMeasure() != null && !mo.getStartDate().before(java.sql.Date.valueOf(timeStart.getValue()))) {
                 observationsList.add(o);
             }
         }
@@ -131,7 +137,12 @@ public class Controller {
 
         for (Object o : observations) {
             myObservation mo = (myObservation) o;
-            if (mo.getName() != null && mo.getMeasure() != null && timeEnd.getValue() != null && !mo.getStartDate().after(java.sql.Date.valueOf(timeEnd.getValue().plusDays(1)))) {
+            if (timeStart.getValue() != null && mo.getName() != null && mo.getMeasure() != null && timeEnd.getValue() != null && !mo.getStartDate().after(java.sql.Date.valueOf(timeEnd.getValue().plusDays(1))) &&
+                    !mo.getStartDate().before(java.sql.Date.valueOf(timeStart.getValue()))) {
+                observationsList.add(o);
+            }
+
+            if (timeStart.getValue() == null && mo.getName() != null && mo.getMeasure() != null && timeEnd.getValue() != null && !mo.getStartDate().after(java.sql.Date.valueOf(timeEnd.getValue().plusDays(1)))) {
                 observationsList.add(o);
             }
         }

@@ -16,7 +16,7 @@ public class myObservation {
     public myObservation(Observation o) {
         try{
             this.name = o.getCode().getText();
-            this.startDate =o.getIssued();
+            this.startDate = o.getIssued();
             SimpleDateFormat dt = new SimpleDateFormat("yyyy-MM-dd HH:mm");
             this.startDateString = dt.format(this.startDate);
 

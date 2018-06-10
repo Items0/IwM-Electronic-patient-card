@@ -16,10 +16,10 @@
       <TextField fx:id="patientName" layoutX="50.0" layoutY="24.0" prefHeight="25.0" prefWidth="135.0" promptText="Text name" />
       <Button fx:id="showDetails" layoutX="281.0" layoutY="24.0" mnemonicParsing="false" onAction="#handleShowDetails" text="Display" />
       <ListView fx:id="details" layoutX="290.0" layoutY="173.0" prefHeight="440.0" prefWidth="334.0" />
-      <TextArea fx:id="medicationShow" layoutX="799.0" layoutY="173.0" prefHeight="200.0" prefWidth="200.0" />
+      <TextArea fx:id="medicationShow" layoutX="669.0" layoutY="173.0" prefHeight="440.0" prefWidth="311.0" />
       <Label fx:id="name" layoutX="127.0" layoutY="147.0" text="Name" />
       <Label layoutX="437.0" layoutY="147.0" text="Details" />
-      <Label layoutX="810.0" layoutY="147.0" text="Medication" />
+      <Label layoutX="787.0" layoutY="147.0" text="Medication" />
       <DatePicker fx:id="timeStart" layoutX="266.0" layoutY="636.0" onAction="#changeTimeStart" />
       <DatePicker fx:id="timeEnd" layoutX="473.0" layoutY="636.0" onAction="#changeTimeEnd" />
       <Label layoutX="406.0" layoutY="28.0" text="ID:" />

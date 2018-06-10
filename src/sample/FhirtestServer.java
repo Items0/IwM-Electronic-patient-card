@@ -112,7 +112,7 @@ public class FhirtestServer {
     }
     public List<myMedication> getMedication(List<Bundle.BundleEntryComponent> entries){
         List<myMedication> medicationList = new LinkedList<>();
-        for (Bundle.BundleEntryComponent e :entries){
+        for (Bundle.BundleEntryComponent e : entries){
             if(e.getResource() instanceof Medication){
                 Medication m = (Medication)e.getResource();
                 myMedication myMedication = new myMedication(m);
@@ -122,30 +122,35 @@ public class FhirtestServer {
         }
         return medicationList;
     }
-    public List<Object> getObservationAndMedicationStatement(List<Bundle.BundleEntryComponent> entries)  {
+    public List<Object> getObservation(List<Bundle.BundleEntryComponent> entries)  {
         List<Object> observationList = new LinkedList<>();
 
-        for (Bundle.BundleEntryComponent e :entries){
+        for (Bundle.BundleEntryComponent e : entries){
             if(e.getResource() instanceof Observation){
                 Observation o = (Observation)e.getResource();
                 myObservation myObservation = new myObservation(o);
                 observationList.add(myObservation);
-            }else if(e.getResource() instanceof MedicationStatement){
-                MedicationStatement ms = (MedicationStatement)e.getResource();
-                myMedicationStatement myMedicationStatement = new myMedicationStatement(ms);
-                System.out.println("MedicationStatement");
-                observationList.add(myMedicationStatement);
             }
-
-            }
-
+        }
         return observationList;
     }
 
+    public List<Object> getMedicationRequest(List<Bundle.BundleEntryComponent> entries) {
+        List<Object> medicationRequestList = new LinkedList<>();
+
+        for (Bundle.BundleEntryComponent e : entries) {
+            if (e.getResource() instanceof MedicationRequest) {
+                MedicationRequest mr = ((MedicationRequest) e.getResource());
+                myMedicationRequest mmr = new myMedicationRequest(mr);
+                //System.out.println("MedicationRequest: " + mmr.getName());
+                medicationRequestList.add(mmr);
+            }
+        }
+        return medicationRequestList;
+    }
     public FhirContext getCtx() {
         return ctx;
     }
-
     public IGenericClient getClient() {
         return client;
     }
